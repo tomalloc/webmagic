@@ -25,7 +25,7 @@ public class Html extends HtmlNode {
 	/**
 	 * Disable jsoup html entity escape. It can be set just before any Html instance is created.
 	 */
-	public static boolean DISABLE_HTML_ENTITY_ESCAPE = false;
+	public static final boolean DISABLE_HTML_ENTITY_ESCAPE = false;
 
 	/**
 	 * Disable jsoup html entity escape. It is a hack way only for jsoup 1.7.2.
