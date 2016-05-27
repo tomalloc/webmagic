@@ -66,8 +66,14 @@ public class DoubleKeyMap<K1, K2, V> extends MultiKeyMapBase {
      * @param submap submap
      * @return value
      */
-    public V put(K1 key1, Map<K2, V> submap) {
-        return put(key1, submap);
+    public Map<K2, V> put(K1 key1, Map<K2, V> submap) {
+        if (map.get(key1) == null) {
+            //不加锁的话，多个线程有可能都会执行到这里
+            map.put(key1, submap);
+        }else{
+            get(key1).putAll(submap);
+        }
+        return submap;
     }
 
     /**

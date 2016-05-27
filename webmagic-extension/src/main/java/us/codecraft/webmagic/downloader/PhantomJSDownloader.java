@@ -68,15 +68,18 @@ public class PhantomJSDownloader extends AbstractDownloader {
             String url = request.getUrl();
             Runtime runtime = Runtime.getRuntime();
             Process process = runtime.exec("phantomjs " + phantomJSPath + url);
-            InputStream is = process.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
             StringBuffer stringBuffer = new StringBuffer();
-            String line;
-            while ((line = br.readLine()) != null) {
-                stringBuffer.append(line).append("\n");
+
+            try(InputStream is = process.getInputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    stringBuffer.append(line).append("\n");
+                }
             }
             return stringBuffer.toString();
         } catch (IOException e) {
+            logger.error("phantomjs request "+phantomJSPath+" error",e);
             e.printStackTrace();
         }
 
